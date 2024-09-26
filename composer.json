@@ -1,0 +1,15 @@
+{
+  "name": "jakam/pdo-mysql",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "ismail",
+      "email": "ismailsevgi95@gmail.com"
+    }
+  ],
+  "require": {}
+}

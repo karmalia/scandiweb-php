@@ -11,5 +11,7 @@
       "email": "ismailsevgi95@gmail.com"
     }
   ],
-  "require": {}
+  "require": {
+    "webonyx/graphql-php": "^15.14"
+  }
 }

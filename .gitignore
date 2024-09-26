@@ -1,0 +1,47 @@
+# Ignore node_modules (if using Node.js for frontend or other dependencies)
+node_modules/
+
+# Ignore Composer vendor directory
+/vendor/
+
+# Ignore environment configuration files
+.env
+
+# Ignore IDE specific files and directories (VSCode, PHPStorm, etc.)
+.vscode/
+.idea/
+
+# Ignore MacOS system files
+.DS_Store
+
+# Ignore log files and temporary files
+*.log
+*.tmp
+*.cache
+*.swp
+
+# Ignore Composer lock file (optional, if you prefer not to track this)
+composer.lock
+
+# Ignore any compiled PHP files
+*.php~
+
+# Ignore cache directories for common PHP frameworks (if any)
+cache/
+storage/
+
+# Ignore Laravel specific files (if applicable)
+bootstrap/cache/
+.env.backup
+.env.local
+.env.testing
+.phpunit.result.cache
+
+# Ignore Xdebug profiler output
+cachegrind.out.*
+
+# Ignore local server-specific files
+/public/.htaccess
+
+# Ignore PHPUnit test result cache
+.phpunit.result.cache

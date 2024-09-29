@@ -2,7 +2,24 @@
 
 namespace App\Models;
 
-class Product
+
+interface ProductInterface
+{
+    public function getId(): string;
+    public function getName(): string;
+    public function getCategory(): string;
+    public function getDescription(): string;
+    public function isInStock(): bool;
+    public function getBrand(): string;
+    public function getPrices(): array;
+    public function getGallery(): array;
+    public function getAttributes(): array;
+    public function setAttributes(array $attributes): void;
+    public function setGallery(array $gallery): void;
+    public function setPrices(array $prices): void;
+}
+
+class Product implements ProductInterface
 {
     private string $id;
     private string $name;

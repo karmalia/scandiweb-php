@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 try {
     $schema = new Schema([
         'query' => new QueryType(),
+        'mutation' => null,
     ]);
 
     $rawInput = file_get_contents('php://input');

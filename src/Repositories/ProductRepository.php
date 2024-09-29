@@ -36,6 +36,26 @@ class ProductRepository
         return $this->groupProducts($products);
     }
 
+    public function getProductById(int $id): Product
+    {
+        $stmt = $this->db->prepare("
+            SELECT p.id, p.name, p.description, p.in_stock, p.brand, 
+                pr.amount, c.id as currency_id, c.label as currency_label, c.symbol as currency_symbol, 
+                GROUP_CONCAT(pi.image_url) as image_urls, 
+                cat.name as category_name
+            FROM products p 
+            LEFT JOIN prices pr ON p.id = pr.product_id
+            LEFT JOIN categories cat ON cat.id = p.category_id
+            LEFT JOIN currencies c ON pr.currency_id = c.id
+            LEFT JOIN product_images pi ON p.id = pi.product_id
+            WHERE p.id = :id
+            GROUP BY p.id, pr.amount, c.id, c.label, c.symbol");
+        $stmt->execute(['id' => $id]);
+        $product = $stmt->fetch();
+
+        return $this->groupProducts([$product])[0];
+    }
+
     private function groupProducts(array $products): array
 {
     $groupedProducts = [];

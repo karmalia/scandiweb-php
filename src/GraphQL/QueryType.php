@@ -25,8 +25,8 @@ class QueryType extends ObjectType {
                     'type' => Type::listOf(new CategoryType()),
                     'resolve' =>  function () {
                        
-                        $productRepository = new CategoryRepository();
-                        return $productRepository->getAllCategories();
+                        $categoryRepository = new CategoryRepository();
+                        return $categoryRepository->getAllCategories();
                     }
                 ],
             ],

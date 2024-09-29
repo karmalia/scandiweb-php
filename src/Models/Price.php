@@ -5,7 +5,7 @@ namespace App\Models;
 class Price
 {
     private float $amount;
-    private Currency $currency;  // A Price object has a Currency object
+    private Currency $currency;  
 
     public function __construct(float $amount, Currency $currency)
     {

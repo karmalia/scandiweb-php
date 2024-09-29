@@ -59,7 +59,8 @@ class ProductType extends ObjectType
                     'resolve'=> function ($product) {
                         return $product->gallery;
                     }
-                ]
+                ],
+                
             ]
         ];
         parent::__construct($config);

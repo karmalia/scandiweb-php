@@ -5,12 +5,12 @@ use GraphQL\GraphQL;
 use GraphQL\Type\Schema;
 use App\GraphQL\QueryType;
 
-// Add CORS headers for localhost only
-header("Access-Control-Allow-Origin: http://localhost"); // Restrict to localhost
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); // Allow these HTTP methods
-header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Allow specific headers
 
-// Handle preflight (OPTIONS) requests
+header("Access-Control-Allow-Origin: http://localhost"); 
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
+header("Access-Control-Allow-Headers: Content-Type, Authorization"); 
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();

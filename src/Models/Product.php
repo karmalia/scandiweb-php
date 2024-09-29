@@ -11,9 +11,11 @@ class Product
     private string $description;
     private bool $in_stock;
     private string $brand;
-    private array $prices = [];  // Array of Price objects
+    private array $prices = []; 
 
     private array $gallery = [];
+
+    private array $attributes = []; 
 
     public function __construct(string $id, string $name, string $description, bool $in_stock, string $brand, string $category)
     {
@@ -23,6 +25,7 @@ class Product
         $this->in_stock = $in_stock;
         $this->brand = $brand;
         $this->category = $category;
+        
     }
 
     public function __get($property)
@@ -72,6 +75,16 @@ class Product
     public function getGallery(): array
     {
         return $this->gallery;
+    }
+
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    public function setAttributes(array $attributes): void
+    {
+        $this->attributes = $attributes;
     }
 
     public function setGallery(array $gallery): void

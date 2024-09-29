@@ -4,9 +4,9 @@ namespace App\Models;
 
 class Currency
 {
-    private string $id;         // 'USD', 'EUR', etc.
-    private string $label;      // 'USD'
-    private string $symbol;     // '$', '€', etc.
+    private string $id;        
+    private string $label;     
+    private string $symbol;    
 
     public function __construct(string $id, string $label, string $symbol)
     {

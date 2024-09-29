@@ -7,14 +7,26 @@ class Product
     private string $id;
     private string $name;
     private string $description;
-    private float $price;
+    private bool $in_stock;
+    private string $brand;
+    private array $prices;  // Array of Price objects
 
-    public function __construct(string $id, string $name, string $description, float $price)
+    public function __construct(string $id, string $name, string $description, bool $in_stock, string $brand, array $prices = [])
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
-        $this->price = $price;
+        $this->in_stock = $in_stock;
+        $this->brand = $brand;
+        $this->prices = $prices;
+    }
+
+    public function __get($property)
+    {
+        if (property_exists($this, $property)) {
+            return $this->$property;
+        }
+        throw new \Exception("Property {$property} does not exist on Price.");
     }
 
     public function getId(): string
@@ -32,8 +44,24 @@ class Product
         return $this->description;
     }
 
-    public function getPrice(): float
+    public function isInStock(): bool
     {
-        return $this->price;
+        return $this->in_stock;
     }
+
+    public function getBrand(): string
+    {
+        return $this->brand;
+    }
+
+    public function getPrices(): array
+    {
+        return $this->prices;
+    }
+
+    public function setPrices(array $prices): void
+{
+    $this->prices = $prices;
+}
+
 }

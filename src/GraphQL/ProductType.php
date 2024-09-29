@@ -15,37 +15,49 @@ class ProductType extends ObjectType
                 'id' => [
                     'type' => Type::nonNull(Type::string()),
                     'resolve' => function ($product) {
-                        return $product->id; // Access via magic __get
+                        return $product->id; 
                     }
                 ],
                 'name' => [
                     'type' => Type::nonNull(Type::string()),
                     'resolve' => function ($product) {
-                        return $product->name; // Access via magic __get
+                        return $product->name; 
+                    }
+                ],
+                'category' => [
+                    'type' => Type::string(),
+                    'resolve' => function ($product) {
+                        return $product->category; 
                     }
                 ],
                 'description' => [
                     'type' => Type::string(),
                     'resolve' => function ($product) {
-                        return $product->description; // Access via magic __get
+                        return $product->description; 
                     }
                 ],
                 'in_stock' => [
                     'type' => Type::boolean(),
                     'resolve' => function ($product) {
-                        return $product->in_stock; // Access via magic __get
+                        return $product->in_stock; 
                     }
                 ],
                 'brand' => [
                     'type' => Type::string(),
                     'resolve' => function ($product) {
-                        return $product->brand; // Access via magic __get
+                        return $product->brand; 
                     }
                 ],
                 'prices' => [
                     'type' => Type::listOf(new PriceType()),
                     'resolve' => function ($product) {
-                        return $product->prices; // Access via magic __get
+                        return $product->prices; 
+                    }
+                ],
+                'gallery' => [
+                    'type'=> Type::listOf(Type::string()),
+                    'resolve'=> function ($product) {
+                        return $product->gallery;
                     }
                 ]
             ]

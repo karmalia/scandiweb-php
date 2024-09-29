@@ -21,13 +21,18 @@ class ProductRepository
     {
         $stmt = $this->db->prepare("
             SELECT p.id, p.name, p.description, p.in_stock, p.brand, 
-                   pr.amount, c.id as currency_id, c.label as currency_label, c.symbol as currency_symbol
+                pr.amount, c.id as currency_id, c.label as currency_label, c.symbol as currency_symbol, 
+                GROUP_CONCAT(pi.image_url) as image_urls, 
+                cat.name as category_name
             FROM products p 
             LEFT JOIN prices pr ON p.id = pr.product_id
+            LEFT JOIN categories cat ON cat.id = p.category_id
             LEFT JOIN currencies c ON pr.currency_id = c.id
-        ");
+            LEFT JOIN product_images pi ON p.id = pi.product_id
+            GROUP BY p.id, pr.amount, c.id, c.label, c.symbol");
         $stmt->execute();
         $products = $stmt->fetchAll();
+        
         return $this->groupProducts($products);
     }
 
@@ -40,12 +45,26 @@ class ProductRepository
 
         // If the product is not in the grouped array, add it
         if (!isset($groupedProducts[$productId])) {
+            $gallery = $product['image_urls'] ? explode('https', $product['image_urls']) : [];
+
+            //Remove seperate(map) image by https and remove(filter) empty strings and get the values(values)
+            $mappedGallery = array_values(
+                array_filter(
+                    array_map(function ($image) {
+                        return strlen(trim($image)) > 0 ? 'https' . $image : null;
+                    }, $gallery),
+                    fn($image) => $image !== null
+                )
+            );
+
             $groupedProducts[$productId] = new Product(
                 $product['id'],
                 $product['name'],
                 $product['description'],
                 (bool) $product['in_stock'],
-                $product['brand']
+                $product['brand'],
+                $product['category_name'],
+                
             );
         }
 
@@ -68,8 +87,16 @@ class ProductRepository
             $currentPrices[] = $price;
             $groupedProducts[$productId]->setPrices($currentPrices);
         }
-    }
 
+        if($product['image_urls']){
+            $groupedProducts[$productId]->setGallery($mappedGallery);
+        }
+
+
+
+
+
+    }
     return array_values($groupedProducts);
 }
 

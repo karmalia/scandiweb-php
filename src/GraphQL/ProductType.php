@@ -60,6 +60,12 @@ class ProductType extends ObjectType
                         return $product->gallery;
                     }
                 ],
+                'attributes' => [
+                    'type' => Type::listOf(new AttributeType()),
+                    'resolve' => function ($product) {
+                        return $product->attributes; 
+                    }
+                ],
                 
             ]
         ];

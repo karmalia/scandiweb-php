@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Price
+class Price implements \JsonSerializable  
 {
     private float $amount;
     private Currency $currency;  
@@ -21,6 +21,14 @@ class Price
     public function getCurrency(): Currency
     {
         return $this->currency;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'amount' => $this->amount,
+            'currency' => $this->currency
+        ];
     }
 
     public function __get($property)

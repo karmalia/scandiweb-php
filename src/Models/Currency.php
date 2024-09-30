@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Currency
+class Currency implements \JsonSerializable
 {
     private string $id;        
     private string $label;     
@@ -28,6 +28,15 @@ class Currency
     public function getSymbol(): string
     {
         return $this->symbol;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'label' => $this->label,
+            'symbol' => $this->symbol
+        ];
     }
 
     public function __get($property)

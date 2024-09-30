@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Attribute
+class Attribute implements \JsonSerializable
 {
     private string $id;
     private string $name;
@@ -15,6 +15,17 @@ class Attribute
         $this->name = $name;
         $this->type = $type;
         $this->items = $items;
+    }
+
+   
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'type' => $this->type,
+            'items' => $this->items
+        ];
     }
 
     public function addItem(AttributeItem $item)

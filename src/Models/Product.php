@@ -3,7 +3,7 @@
 namespace App\Models;
 
 
-interface ProductInterface
+interface ProductInterface 
 {
     public function getId(): string;
     public function getName(): string;
@@ -17,9 +17,13 @@ interface ProductInterface
     public function setAttributes(array $attributes): void;
     public function setGallery(array $gallery): void;
     public function setPrices(array $prices): void;
+
+    public function logProduct(): void;
+
+
 }
 
-class Product implements ProductInterface
+class Product implements ProductInterface , \JsonSerializable  
 {
     private string $id;
     private string $name;
@@ -43,6 +47,27 @@ class Product implements ProductInterface
         $this->brand = $brand;
         $this->category = $category;
         
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'category' => $this->category,
+            'description' => $this->description,
+            'in_stock' => $this->in_stock,
+            'brand' => $this->brand,
+            'prices' => $this->prices,
+            'gallery' => $this->gallery,
+            'attributes' => $this->attributes
+        ];
+    }
+
+
+    public function logProduct(): void
+    {
+        echo "Product: {$this->name} - {$this->description} - {$this->brand} - {$this->category} - {$this->in_stock} - {$this->id} - Attributes: \n" . var_dump($this->attributes);
     }
 
     public function __get($property)
@@ -101,7 +126,14 @@ class Product implements ProductInterface
 
     public function setAttributes(array $attributes): void
     {
-        $this->attributes = $attributes;
+        try {
+           
+            $this->attributes = $attributes;
+           
+        } catch (\Throwable $th) {
+            echo "ERROR" . $th;
+        }
+        
     }
 
     public function setGallery(array $gallery): void

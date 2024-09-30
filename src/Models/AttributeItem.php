@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class AttributeItem
+class AttributeItem implements \JsonSerializable
 {
     private string $id;
     private string $value;
@@ -15,7 +15,32 @@ class AttributeItem
         $this->displayValue = $displayValue;
     }
 
-    public function getId(): string { return $this->id; }
-    public function getValue(): string { return $this->value; }
-    public function getDisplayValue(): string { return $this->displayValue; }
+    
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'value' => $this->value,
+            'displayValue' => $this->displayValue
+        ];
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    public function getDisplayValue()
+    {
+        return $this->displayValue;
+    } 
 }
+
+
+
+

@@ -4,9 +4,11 @@ namespace App\GraphQL;
 
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;
+use App\Models\Attribute;
 
 class AttributeType extends ObjectType
 {
+  
     public function __construct()
     {
         $config = [
@@ -14,27 +16,27 @@ class AttributeType extends ObjectType
             'fields' => [
                 'id' => [
                     'type' => Type::nonNull(Type::string()),
-                    'resolve' => function ($attribute) {
-                        return $attribute->id; 
+                    'resolve' => function (Attribute $attribute) {
+                        return $attribute->getId(); 
                     }
                 ],
                 'name' => [
                     'type' => Type::nonNull(Type::string()),
-                    'resolve' => function ($attribute) {
-                        return $attribute->name; 
+                    'resolve' => function (Attribute $attribute) {
+                        return $attribute->getName(); 
                     }
                 ],
                 'type' => [
                     'type' => Type::nonNull(Type::string()),
-                    'resolve' => function ($attribute) {
-                        return $attribute->type; 
+                    'resolve' => function (Attribute $attribute) {
+                        return $attribute->getType();
                     }
                 ],
                
                 'items' => [
-                    'type' => Type::listOf(new PriceType()),
-                    'resolve' => function ($attribute) {
-                        return $attribute->items; 
+                    'type' => Type::listOf(new AttributeItemType()),
+                    'resolve' => function (Attribute $attribute):array {
+                        return $attribute->getItems();
                     }
                 ],
                 

@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-namespace App\GraphQL;
+namespace App\GraphQL\Types;
 
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;
@@ -22,7 +22,7 @@ class AttributeItemType extends ObjectType
                 'value' => [
                     'type' => Type::string(),
                     'resolve' => function (AttributeItem $item) {
-                        return $item->getValue(); 
+                        return $item->getValue();
                     }
                 ],
                 'displayValue' => [

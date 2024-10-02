@@ -1,6 +1,6 @@
 <?php
 
-namespace App\GraphQL;
+namespace App\GraphQL\Types;
 
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;
@@ -13,7 +13,7 @@ class CurrencyType extends ObjectType
             'name' => 'Currency',
             'fields' => [
                 'label' => Type::nonNull(Type::string()),
-                'symbol' => Type::nonNull(Type::string()) 
+                'symbol' => Type::nonNull(Type::string())
             ]
         ];
         parent::__construct($config);

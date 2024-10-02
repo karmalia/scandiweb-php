@@ -1,6 +1,6 @@
 <?php
 
-namespace App\GraphQL;
+namespace App\GraphQL\Types;
 
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;
@@ -15,16 +15,16 @@ class CategoryType extends ObjectType
                 'id' => [
                     'type' => Type::nonNull(Type::int()),
                     'resolve' => function ($category) {
-                        return $category->id; 
+                        return $category->id;
                     }
                 ],
                 'name' => [
                     'type' => Type::nonNull(Type::string()),
                     'resolve' => function ($category) {
-                        return $category->name; 
+                        return $category->name;
                     }
                 ],
-               
+
             ]
         ];
         parent::__construct($config);

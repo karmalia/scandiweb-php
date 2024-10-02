@@ -8,10 +8,10 @@ use GraphQL\Type\Definition\ObjectType;
 use App\Repositories\ProductRepository;
 
 class QueryType extends ObjectType {
-    private $productType;  // Store a single instance of ProductType
-    private $categoryType; // Store a single instance of CategoryType
+    private $productType;
+    private $categoryType;
     public function __construct() {
-        // Initialize shared instances of the types
+        
         $this->productType = new ProductType();
         $this->categoryType = new CategoryType();
         $config = [
@@ -19,11 +19,12 @@ class QueryType extends ObjectType {
             'fields' => [
                 'products' => [
                     'type' => Type::listOf($this->productType),
-                    'resolve' =>  function () {
-                       
-
+                    'args' => [
+                        'category' => Type::nonNull(Type::string())
+                    ],
+                    'resolve' =>  function ($root, $args) {
                         $productRepository = new ProductRepository();
-                        return $productRepository->getAllProducts();
+                        return $productRepository->getAllProducts($args['category']);
                     }
                 ],
                 'categories' => [

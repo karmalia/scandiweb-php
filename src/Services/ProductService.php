@@ -15,7 +15,7 @@ class ProductService
     // Can be converted to a static method in future?
     public function mapRowToProduct(array $rows): ?Product
     {
-        $formatter = new Formatter();
+       
         if (empty($rows)) {
             return null;
         }
@@ -84,6 +84,39 @@ class ProductService
         return array_values($attributes);
     }
 
+    public function groupProducts(array $products): array
+    {
+        $groupedProducts = [];
+
+        foreach ($products as $product) {
+            $productId = $product['id'];
+
+            // If the product is not in the grouped array, add it
+            if (!isset($groupedProducts[$productId])) {
+
+                $groupedProducts[$productId] = new Product(
+                    $product['id'],
+                    $product['name'],
+                    $product['description'],
+                    (bool) $product['in_stock'],
+                    $product['brand'],
+                    $product['category_name']
+                );
+            }
+
+            // Only add the price if all required price fields are present
+            $currentPrices = $this->extractPrices([$product]);
+            if (!empty($currentPrices)) {
+                $groupedProducts[$productId]->setPrices($currentPrices);
+            }
+
+            if ($product['image_urls']) {
+                $groupedProducts[$productId]->setGallery(Formatter::parseGallery($product['image_urls']));
+            }
+        }
+
+        return array_values($groupedProducts);
+    }
     
     
 }

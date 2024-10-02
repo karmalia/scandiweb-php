@@ -7,6 +7,8 @@ use App\Core\Database;
 
 class CategoryRepository
 {
+   
+    // Used for fetching categories
     private $db;
 
     public function __construct()

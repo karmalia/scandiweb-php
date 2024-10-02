@@ -5,6 +5,7 @@ use GraphQL\GraphQL;
 use GraphQL\Type\Schema;
 use App\GraphQL\QueryType;
 use GraphQL\Error\DebugFlag;
+use App\Utils\Formatter;
 
 header("Access-Control-Allow-Origin: http://localhost"); 
 header("Access-Control-Allow-Origin: http://localhost:3000"); 
@@ -56,4 +57,4 @@ try {
 }
 
 header('Content-Type: application/json');
-echo json_encode($output);
+echo Formatter::toJson($output , true);

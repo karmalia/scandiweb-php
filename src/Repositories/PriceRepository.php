@@ -8,6 +8,7 @@ use App\Core\Database;
 
 class PriceRepository
 {
+    // Not used in current implementation
     private $db;
 
     public function __construct()

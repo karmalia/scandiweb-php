@@ -7,6 +7,7 @@ use App\Core\Database;
 
 class CurrencyRepository
 {
+    // Not used in current implementation
     private $db;
 
     public function __construct()

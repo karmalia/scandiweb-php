@@ -24,6 +24,7 @@ class QueryType extends ObjectType {
                     ],
                     'resolve' =>  function ($root, $args) {
                         $productRepository = new ProductRepository();
+                        
                         return $productRepository->getAllProducts($args['category']);
                     }
                 ],

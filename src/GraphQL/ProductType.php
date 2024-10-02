@@ -15,58 +15,58 @@ class ProductType extends ObjectType
                 'id' => [
                     'type' => Type::nonNull(Type::string()),
                     'resolve' => function ($product) {
-                        return $product->id; 
+                        return $product->id;
                     }
                 ],
                 'name' => [
                     'type' => Type::nonNull(Type::string()),
                     'resolve' => function ($product) {
-                        return $product->name; 
+                        return $product->name;
                     }
                 ],
                 'category' => [
                     'type' => Type::string(),
                     'resolve' => function ($product) {
-                        return $product->category; 
+                        return $product->category;
                     }
                 ],
                 'description' => [
                     'type' => Type::string(),
                     'resolve' => function ($product) {
-                        return $product->description; 
+                        return $product->description;
                     }
                 ],
                 'in_stock' => [
                     'type' => Type::boolean(),
                     'resolve' => function ($product) {
-                        return $product->in_stock; 
+                        return $product->in_stock;
                     }
                 ],
                 'brand' => [
                     'type' => Type::string(),
                     'resolve' => function ($product) {
-                        return $product->brand; 
+                        return $product->brand;
                     }
                 ],
                 'prices' => [
                     'type' => Type::listOf(new PriceType()),
                     'resolve' => function ($product) {
-                        return $product->prices; 
+                        return $product->prices;
                     }
                 ],
                 'gallery' => [
-                    'type'=> Type::listOf(Type::string()),
-                    'resolve'=> function ($product) {
+                    'type' => Type::listOf(Type::string()),
+                    'resolve' => function ($product) {
                         return $product->gallery;
                     }
                 ],
                 'attributes' => [
                     'type' => Type::listOf(new AttributeType()),
                     'resolve' => function ($product) {
-                        return $product->attributes; 
+                        return $product->attributes;
                     }
                 ],
-                
+
             ]
         ];
         parent::__construct($config);

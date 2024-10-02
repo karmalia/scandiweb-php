@@ -18,6 +18,9 @@ class Formatter
     public static function toJson(array $data, bool $prettyPrint = false): string
     {
         $options = $prettyPrint ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE : 0;
+
+
+
         return json_encode($data, $options);
     }
 }

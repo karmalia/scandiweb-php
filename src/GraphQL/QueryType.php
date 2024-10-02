@@ -7,11 +7,13 @@ use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;
 use App\Repositories\ProductRepository;
 
-class QueryType extends ObjectType {
+class QueryType extends ObjectType
+{
     private $productType;
     private $categoryType;
-    public function __construct() {
-        
+    public function __construct()
+    {
+
         $this->productType = new ProductType();
         $this->categoryType = new CategoryType();
         $config = [
@@ -24,16 +26,27 @@ class QueryType extends ObjectType {
                     ],
                     'resolve' =>  function ($root, $args) {
                         $productRepository = new ProductRepository();
-                        
-                        return $productRepository->getAllProducts($args['category']);
+                        $data = $productRepository->getAllProducts($args['category']);
+
+                        if ($data) {
+                            return $data;
+                        } else {
+                            throw new \GraphQL\Error\UserError('Products not found');
+                        }
                     }
                 ],
                 'categories' => [
                     'type' => Type::listOf($this->categoryType),
                     'resolve' =>  function () {
-                       
+
                         $categoryRepository = new CategoryRepository();
-                        return $categoryRepository->getAllCategories();
+                        $data = $categoryRepository->getAllCategories();
+
+                        if ($data) {
+                            return $data;
+                        } else {
+                            throw new \GraphQL\Error\UserError('Categories not found');
+                        }
                     }
                 ],
                 'productById' => [
@@ -42,15 +55,15 @@ class QueryType extends ObjectType {
                         'id' => Type::nonNull(Type::string())
                     ],
                     'resolve' => function ($root, $args) {
-                        try {
-                            $productRepository = new ProductRepository();
-                            $data = $productRepository->getProductById($args['id']);
+
+                        $productRepository = new ProductRepository();
+                        $data = $productRepository->getProductById($args['id']);
+
+                        if ($data) {
                             return $data;
-                        } catch (\Throwable $th) {
-                            echo $th->getMessage();
-                            return null;
+                        } else {
+                            throw new \GraphQL\Error\UserError('Product not found');
                         }
-                        
                     }
                 ],
             ],

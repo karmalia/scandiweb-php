@@ -12,13 +12,28 @@ class OrderType extends ObjectType
         $config = [
             'name' => 'Order',
             'fields' => [
-                'id' => Type::nonNull(Type::int()),
-                'total_amount' => Type::nonNull(Type::float()),
-                'currency_id' => Type::nonNull(Type::string()),
-                'status' => Type::nonNull(Type::string()),
-                'created_at' => Type::string(),
-                'updated_at' => Type::string(),
-            ],
+                'order_id' => [
+                    'type' => Type::nonNull(Type::int())
+                ],
+                'total_amount' => [
+                    'type' => Type::float()
+                ],
+                'currency_id' => [
+                    'type' => Type::string()
+                ],
+                'status' => [
+                    'type' => Type::string()
+                ],
+                'created_at' => [
+                    'type' => Type::string()
+                ],
+                'updated_at' => [
+                    'type' => Type::string()
+                ],
+                'items' => [
+                    'type' => Type::listOf(new OrderItemType()) // Define OrderItemType for the order items.
+                ]
+            ]
         ];
         parent::__construct($config);
     }

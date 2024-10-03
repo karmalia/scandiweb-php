@@ -23,6 +23,7 @@ class QueryType extends ObjectType
                 'categories' => $productQueries->getCategories(),
                 'productById' => $productQueries->getProductById(),
                 'getOrders' => $orderQueries->getOrders(),
+                'getOrderById' => $orderQueries->getOrderById(),
             ],
         ];
         parent::__construct($config);

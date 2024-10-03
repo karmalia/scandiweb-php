@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Core\Database;
+use App\Services\OrderService;
 use PDO;
 
 class OrderRepository
@@ -52,5 +53,56 @@ class OrderRepository
             SELECT * FROM orders
         ");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllOrdersWithItems()
+    {
+        $stmt = $this->db->query("
+        SELECT 
+            o.id AS order_id, 
+            o.total_amount, 
+            o.currency_id, 
+            o.status, 
+            o.created_at, 
+            o.updated_at,
+            oi.product_id, 
+            oi.quantity, 
+            oi.price 
+        FROM orders o
+        LEFT JOIN order_items oi ON o.id = oi.order_id
+        ORDER BY o.created_at DESC
+    ");
+        $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return OrderService::groupOrderItems($orders);
+    }
+
+    public function getOrderDetailsById(int $orderId)
+    {
+        $stmt = $this->db->prepare("
+        SELECT 
+            o.id AS order_id, 
+            o.total_amount, 
+            o.currency_id, 
+            o.status, 
+            o.created_at, 
+            o.updated_at,
+            oi.product_id, 
+            oi.quantity, 
+            oi.price,
+            p.name AS product_name,
+            c.label AS currency_label, 
+            c.symbol AS currency_symbol
+        FROM orders o
+        LEFT JOIN order_items oi ON o.id = oi.order_id
+        LEFT JOIN products p ON oi.product_id = p.id
+        LEFT JOIN currencies c ON o.currency_id = c.id
+        WHERE o.id = :order_id
+    ");
+        $stmt->bindParam(':order_id', $orderId);
+        $stmt->execute();
+
+        $orderDetails = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($orderDetails);
+        return OrderService::groupOrderItems($orderDetails);
     }
 }

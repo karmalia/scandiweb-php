@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 try {
     $schema = new Schema([
         'query' => new QueryType(),
-        'mutation' => null,
+        'mutation' => new MutationType(),
     ]);
 
 
@@ -42,6 +42,7 @@ try {
     if ($query === null) {
         throw new \Exception("No query found in the request.");
     }
+
 
 
     $result = GraphQL::executeQuery($schema, $query, null, null, $variables, $operationName);

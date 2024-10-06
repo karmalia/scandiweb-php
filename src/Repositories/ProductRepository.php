@@ -63,7 +63,7 @@ class ProductRepository
         SELECT 
             p.id, p.name, p.description, p.in_stock, p.brand, 
             pr.amount, c.id AS currency_id, c.label AS currency_label, c.symbol AS currency_symbol, 
-            GROUP_CONCAT(DISTINCT pi.image_url ORDER BY pi.id SEPARATOR ',') AS image_urls, 
+            GROUP_CONCAT(DISTINCT pi.image_url ORDER BY pi.id SEPARATOR '||') AS image_urls, 
             cat.name AS category_name,
             
             -- For attributes

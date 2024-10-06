@@ -5,7 +5,7 @@ namespace App\GraphQL\InputTypes;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\Type;
 
-class OrderProductInputType extends InputObjectType
+class OrderProductType extends InputObjectType
 {
     public function __construct()
     {
@@ -13,7 +13,8 @@ class OrderProductInputType extends InputObjectType
             'name' => 'OrderProductInput',
             'fields' => [
                 'productId' => Type::nonNull(Type::string()),
-                'quantity' => Type::nonNull(Type::int())
+                'quantity' => Type::nonNull(Type::int()),
+                'selectedAttributes' => Type::listOf(new SelectedAttributeType())
             ]
         ];
 

@@ -15,7 +15,7 @@ class ProductService
     // Can be converted to a static method in future?
     public function mapRowToProduct(array $rows): ?Product
     {
-       
+
         if (empty($rows)) {
             return null;
         }
@@ -30,6 +30,7 @@ class ProductService
             $firstRow['category_name']
         );
 
+
         $product->setGallery(Formatter::parseGallery($firstRow['image_urls']));
         $product->setPrices($this->extractPrices($rows));
         $product->setAttributes($this->groupAttributesByProduct($rows));
@@ -37,7 +38,7 @@ class ProductService
         return $product;
     }
 
-   
+
 
     public function extractPrices(array $rows): array
     {
@@ -117,6 +118,4 @@ class ProductService
 
         return array_values($groupedProducts);
     }
-    
-    
 }

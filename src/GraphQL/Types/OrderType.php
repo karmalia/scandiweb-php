@@ -12,7 +12,7 @@ class OrderType extends ObjectType
         $config = [
             'name' => 'Order',
             'fields' => [
-                'order_id' => [
+                'orderId' => [
                     'type' => Type::nonNull(Type::int())
                 ],
                 'total_amount' => [

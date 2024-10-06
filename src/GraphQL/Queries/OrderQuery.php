@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Queries;
 
+use App\GraphQL\OutputTypes\GetOrderByIdTypes\OrderDetailsType;
 use GraphQL\Type\Definition\Type;
 use App\Repositories\OrderRepository;
 
@@ -12,9 +13,11 @@ class OrderQuery
 {
 
     private $orderType;
+    private $orderDetailsType;
 
     public function __construct()
     {
+        $this->orderDetailsType = new OrderDetailsType();
         $this->orderType = new OrderType();;
     }
 
@@ -39,7 +42,7 @@ class OrderQuery
     public function getOrderById(): array
     {
         return [
-            'type' => $this->orderType,
+            'type' => $this->orderDetailsType,
             'args' => [
                 'id' => Type::nonNull(Type::int())
             ],
@@ -47,50 +50,7 @@ class OrderQuery
                 $orderRepository = new OrderRepository();
                 $data = $orderRepository->getOrderDetailsById($args['id']);
 
-                /*
-                [
-    {
-        "order_id": 18,
-        "total_amount": "800.22",
-        "currency_id": "USD",
-        "status": "pending",
-        "created_at": "2024-10-03 15:23:59",
-        "updated_at": "2024-10-03 15:23:59",
-        "product_id": "apple-airpods-pro",
-        "quantity": 1,
-        "price": "300.23",
-        "product_name": "AirPods Pro",
-        "currency_label": "USD",
-        "currency_symbol": "$"
-    },
-    {
-        "order_id": 18,
-        "total_amount": "800.22",
-        "currency_id": "USD",
-        "status": "pending",
-        "created_at": "2024-10-03 15:23:59",
-        "updated_at": "2024-10-03 15:23:59",
-        "product_id": "xbox-series-s",
-        "quantity": 1,
-        "price": "333.99",
-        "product_name": "Xbox Series S 512GB",
-        "currency_label": "USD",
-        "currency_symbol": "$"
-    }
-]
 
-                    "product_id": "xbox-series-s",
-        "quantity": 1,
-        "price": "333.99",
-        "product_name": "Xbox Series S 512GB",
-        "currency_label": "USD",
-        "currency_symbol": "$"
-
-
-        bu kısmı items adı altıdna gruplamak lazım, 1 tane obje dönmesi lazım ayrı bir gruplama methodu yazılmalı
-                
-                
-                */
                 return $data;
             }
 

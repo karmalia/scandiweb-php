@@ -12,24 +12,24 @@ class OrderService
         $groupedOrders = [];
 
         foreach ($orders as $order) {
-            $orderId = $order['order_id'];
+            $orderId = $order['orderId'];
 
             // If the order is not in the grouped array, add it.
             if (!isset($groupedOrders[$orderId])) {
                 $groupedOrders[$orderId] = [
-                    'order_id' => $orderId,
-                    'total_amount' => $order['total_amount'],
-                    'currency_id' => $order['currency_id'],
+                    'orderId' => $orderId,
+                    'totalAmount' => $order['totalAmount'],
+                    'currencyId' => $order['currencyId'],
                     'status' => $order['status'],
-                    'created_at' => $order['created_at'],
-                    'updated_at' => $order['updated_at'],
+                    'createdAt' => $order['createdAt'],
+                    'updatedAt' => $order['updatedAt'],
                     'items' => [] // Initialize items as an empty array.
                 ];
             }
 
             // Add order item details to the 'items' array.
             $groupedOrders[$orderId]['items'][] = [
-                'product_id' => $order['product_id'],
+                'productId' => $order['productId'],
                 'quantity' => $order['quantity'],
                 'price' => $order['price']
             ];
@@ -43,17 +43,19 @@ class OrderService
     {
         $orders = [];
 
+        // echo json_encode($orderDetails, JSON_PRETTY_PRINT);
+
         foreach ($orderDetails as $row) {
             $orderId = $row['order_id'];
 
             if (!isset($orders[$orderId])) {
                 $orders[$orderId] = [
-                    'order_id' => $row['order_id'],
-                    'total_amount' => $row['total_amount'],
-                    'currency_symbol' => $row['currency_symbol'],
+                    'orderId' => $row['order_id'],
+                    'totalAmount' => $row['total_amount'],
+                    'currencySymbol' => $row['currency_symbol'],
                     'status' => $row['status'],
-                    'created_at' => $row['created_at'],
-                    'updated_at' => $row['updated_at'],
+                    'createdAt' => $row['created_at'],
+                    'updatedAt' => $row['updated_at'],
                     'items' => []
                 ];
             }
@@ -61,10 +63,10 @@ class OrderService
             $productId = $row['product_id'];
             if (!isset($orders[$orderId]['items'][$productId])) {
                 $orders[$orderId]['items'][$productId] = [
-                    'product_id' => $row['product_id'],
+                    'productId' => $row['product_id'],
                     'quantity' => $row['quantity'],
                     'price' => $row['price'],
-                    'product_name' => $row['product_name'],
+                    'productName' => $row['product_name'],
                     'attributes' => []
                 ];
             }
@@ -72,9 +74,8 @@ class OrderService
             // Add the attribute if it exists in the row.
             if (!empty($row['attribute_name'])) {
                 $orders[$orderId]['items'][$productId]['attributes'][] = [
-                    'attribute_name' => $row['attribute_name'],
-                    'attribute_value' => $row['attribute_value'],
-                    'selected' => (bool)$row['selected']
+                    'attributeName' => $row['attribute_name'],
+                    'attributeValue' => $row['attribute_value'],
                 ];
             }
         }

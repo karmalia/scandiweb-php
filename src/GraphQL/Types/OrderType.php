@@ -15,19 +15,19 @@ class OrderType extends ObjectType
                 'orderId' => [
                     'type' => Type::nonNull(Type::int())
                 ],
-                'total_amount' => [
+                'totalAmount' => [
                     'type' => Type::float()
                 ],
-                'currency_id' => [
+                'currencyId' => [
                     'type' => Type::string()
                 ],
                 'status' => [
                     'type' => Type::string()
                 ],
-                'created_at' => [
+                'createdAt' => [
                     'type' => Type::string()
                 ],
-                'updated_at' => [
+                'updatedAt' => [
                     'type' => Type::string()
                 ],
                 'items' => [

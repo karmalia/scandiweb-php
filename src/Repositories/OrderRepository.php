@@ -199,4 +199,17 @@ class OrderRepository
 
         return $order;
     }
+
+    public function updateOrderStatus(int $orderId, string $status): bool
+    {
+        $stmt = $this->db->prepare("
+            UPDATE orders 
+            SET status = :status 
+            WHERE id = :order_id
+        ");
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':order_id', $orderId);
+
+        return $stmt->execute();
+    }
 }

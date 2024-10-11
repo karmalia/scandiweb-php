@@ -12,7 +12,7 @@ class OrderItemType extends ObjectType
         $config = [
             'name' => 'OrderItem',
             'fields' => [
-                'product_id' => [
+                'productId' => [
                     'type' => Type::string()
                 ],
                 'quantity' => [

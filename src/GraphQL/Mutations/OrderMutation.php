@@ -53,7 +53,7 @@ class OrderMutation
                         $orderedProducts[] = [
                             'productId' => $product['productId'],
                             'quantity' => $product['quantity'],
-                            'price' => $selectedPrice->amount,
+                            'price' => $selectedPrice->amount * $product['quantity'],
                             'selectedAttributes' => $product['selectedAttributes'] ?? [] // Include attributes if present
                         ];
                     }
@@ -70,6 +70,32 @@ class OrderMutation
                         "status" => "Failed to create order",
                         "error" => $th->getMessage()
                     ];
+                }
+            }
+        ];
+    }
+
+    public function updateOrderStatusField(): array
+    {
+        return [
+            'type' => Type::nonNull(Type::string()),
+            'args' => [
+                'orderId' => Type::nonNull(Type::int()),
+                'status' => Type::nonNull(Type::string()),
+            ],
+            'resolve' => function ($root, $args, $context, ResolveInfo $info) {
+                $orderRepository = new OrderRepository();
+                $orderId = $args['orderId'];
+                $status = $args['status'];
+
+
+                $result = $orderRepository->updateOrderStatus($orderId, $status);
+
+
+                if ($result) {
+                    return "Order ID {$orderId} has been updated to {$status}.";
+                } else {
+                    throw new \GraphQL\Error\UserError("Failed to update order status {$orderId}");
                 }
             }
         ];

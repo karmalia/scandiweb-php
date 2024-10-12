@@ -8,10 +8,22 @@ use App\GraphQL\MutationType; //Mutations
 use GraphQL\Error\DebugFlag;
 use App\Utils\Formatter;
 
-header("Access-Control-Allow-Origin: http://localhost");
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+$allowed_origins = [
+    'https://scandiweb-react-fullstack.vercel.app',
+    'http://localhost:3000'
+];
+
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+    $origin = $_SERVER['HTTP_ORIGIN'];
+
+    if (in_array($origin, $allowed_origins)) {
+        header("Access-Control-Allow-Origin: $origin");
+    }
+}
+
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Credentials: true");
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {

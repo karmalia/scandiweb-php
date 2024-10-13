@@ -15,13 +15,13 @@ class CategoryType extends ObjectType
                 'id' => [
                     'type' => Type::nonNull(Type::int()),
                     'resolve' => function ($category) {
-                        return $category->id;
+                        return $category->getId();
                     }
                 ],
                 'name' => [
                     'type' => Type::nonNull(Type::string()),
                     'resolve' => function ($category) {
-                        return $category->name;
+                        return $category->getName();
                     }
                 ],
 

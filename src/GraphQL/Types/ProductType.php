@@ -15,55 +15,55 @@ class ProductType extends ObjectType
                 'id' => [
                     'type' => Type::nonNull(Type::string()),
                     'resolve' => function ($product) {
-                        return $product->id;
+                        return $product->getId();
                     }
                 ],
                 'name' => [
                     'type' => Type::nonNull(Type::string()),
                     'resolve' => function ($product) {
-                        return $product->name;
+                        return $product->getName();
                     }
                 ],
                 'category' => [
                     'type' => Type::string(),
                     'resolve' => function ($product) {
-                        return $product->category;
+                        return $product->getCategory();
                     }
                 ],
                 'description' => [
                     'type' => Type::string(),
                     'resolve' => function ($product) {
-                        return $product->description;
+                        return $product->getDescription();
                     }
                 ],
                 'in_stock' => [
                     'type' => Type::boolean(),
                     'resolve' => function ($product) {
-                        return $product->in_stock;
+                        return $product->isInStock();
                     }
                 ],
                 'brand' => [
                     'type' => Type::string(),
                     'resolve' => function ($product) {
-                        return $product->brand;
+                        return $product->getBrand();
                     }
                 ],
                 'prices' => [
                     'type' => Type::listOf(new PriceType()),
                     'resolve' => function ($product) {
-                        return $product->prices;
+                        return $product->getPrices();
                     }
                 ],
                 'gallery' => [
                     'type' => Type::listOf(Type::string()),
                     'resolve' => function ($product) {
-                        return $product->gallery;
+                        return $product->getGallery();
                     }
                 ],
                 'attributes' => [
                     'type' => Type::listOf(new AttributeType()),
                     'resolve' => function ($product) {
-                        return $product->attributes;
+                        return $product->getAttributes();
                     }
                 ],
 

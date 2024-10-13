@@ -9,15 +9,12 @@ class Gallery
 
     public function __construct(string $imageUrl)
     {
-        
+
         $this->imageUrl = $imageUrl;
     }
 
-    public function __get($property)
+    public function getImageUrl(): string
     {
-        if (property_exists($this, $property)) {
-            return $this->$property;
-        }
-        throw new \Exception("Property {$property} does not exist on Currency.");
+        return $this->imageUrl;
     }
 }

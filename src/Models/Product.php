@@ -3,7 +3,7 @@
 namespace App\Models;
 
 
-interface ProductInterface 
+interface ProductInterface
 {
     public function getId(): string;
     public function getName(): string;
@@ -19,11 +19,9 @@ interface ProductInterface
     public function setPrices(array $prices): void;
 
     public function logProduct(): void;
-
-
 }
 
-class Product implements ProductInterface , \JsonSerializable  
+class Product implements ProductInterface, \JsonSerializable
 {
     private string $id;
     private string $name;
@@ -32,11 +30,11 @@ class Product implements ProductInterface , \JsonSerializable
     private string $description;
     private bool $in_stock;
     private string $brand;
-    private array $prices = []; 
+    private array $prices = [];
 
     private array $gallery = [];
 
-    private array $attributes = []; 
+    private array $attributes = [];
 
     public function __construct(string $id, string $name, string $description, bool $in_stock, string $brand, string $category)
     {
@@ -46,7 +44,6 @@ class Product implements ProductInterface , \JsonSerializable
         $this->in_stock = $in_stock;
         $this->brand = $brand;
         $this->category = $category;
-        
     }
 
     public function jsonSerialize(): array
@@ -64,25 +61,18 @@ class Product implements ProductInterface , \JsonSerializable
         ];
     }
 
-
     public function logProduct(): void
     {
         echo "Product: {$this->name} - {$this->description} - {$this->brand} - {$this->category} - {$this->in_stock} - {$this->id} - Attributes: \n" . var_dump($this->attributes);
     }
 
-    public function __get($property)
-    {
-        if (property_exists($this, $property)) {
-            return $this->$property;
-        }
-        throw new \Exception("Property {$property} does not exist on Price.");
-    }
+
 
     public function getId(): string
     {
         return $this->id;
     }
-    
+
 
     public function getName(): string
     {
@@ -127,13 +117,11 @@ class Product implements ProductInterface , \JsonSerializable
     public function setAttributes(array $attributes): void
     {
         try {
-           
+
             $this->attributes = $attributes;
-           
         } catch (\Throwable $th) {
             echo "ERROR" . $th;
         }
-        
     }
 
     public function setGallery(array $gallery): void
@@ -142,8 +130,7 @@ class Product implements ProductInterface , \JsonSerializable
     }
 
     public function setPrices(array $prices): void
-{
-    $this->prices = $prices;
-}
-
+    {
+        $this->prices = $prices;
+    }
 }

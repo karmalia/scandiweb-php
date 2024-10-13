@@ -4,7 +4,7 @@ namespace App\Models;
 
 class Category
 {
-    
+
     private int $id;
     private string $name;
 
@@ -14,12 +14,12 @@ class Category
         $this->name = $name;
     }
 
-    
-    public function __get($property)
+    public function getId(): int
     {
-        if (property_exists($this, $property)) {
-            return $this->$property;
-        }
-        throw new \Exception("Property {$property} does not exist on Currency.");
+        return $this->id;
+    }
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

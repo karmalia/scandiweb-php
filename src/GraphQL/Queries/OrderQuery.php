@@ -5,7 +5,6 @@ namespace App\GraphQL\Queries;
 use App\GraphQL\OutputTypes\GetOrderByIdTypes\OrderDetailsType;
 use GraphQL\Type\Definition\Type;
 use App\Repositories\OrderRepository;
-
 use App\GraphQL\Types\OrderType;
 
 

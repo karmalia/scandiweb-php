@@ -31,7 +31,6 @@ class OrderRepository
         return $this->db->lastInsertId();
     }
 
-    // Add products to the order and return the order items' details
     public function addOrderItems(int $orderId, array $orderedProducts)
     {
         $stmt = $this->db->prepare("
@@ -54,7 +53,6 @@ class OrderRepository
         }
     }
 
-    // Insert attributes into `order_item_attributes`
     private function addOrderItemAttributes(int $orderItemId, array $selectedAttributes)
     {
         $stmt = $this->db->prepare("
@@ -72,8 +70,6 @@ class OrderRepository
         }
     }
 
-
-    // Retrieve all orders with their items and attributes
     public function getAllOrdersWithItems()
     {
         $stmt = $this->db->query("
@@ -108,7 +104,6 @@ class OrderRepository
         return OrderService::groupOrderItemsWithAttributes($orders);
     }
 
-    // Retrieve specific order details including selected attributes
     public function getOrderDetailsById(int $orderId)
     {
         $stmt = $this->db->prepare("

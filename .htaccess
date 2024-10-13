@@ -1,8 +1,6 @@
 RewriteEngine On
 
-# Rewrite everything to server.php
+# Redirect all requests to public/index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond $1 !^(public|src|vendor|config|composer.json|composer.lock)
-
-RewriteRule ^(.*)$ server.php [QSA,L]
+RewriteRule ^(.*)$ public/index.php [QSA,L]

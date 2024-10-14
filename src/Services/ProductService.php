@@ -42,19 +42,22 @@ class ProductService
 
         // Handle attributes and their items
         $attributes = [];
-        foreach ($productData as $row) {
-            $attributeId = $row['attribute_id'];
-            if (!isset($attributes[$attributeId])) {
-                $attributes[$attributeId] = new Attribute($row['attribute_id'], $row['attribute_name'], $row['attribute_type']);
-            }
+        if ($row['attribute_id']) {
+            foreach ($productData as $row) {
+                $attributeId = $row['attribute_id'];
+                if (!isset($attributes[$attributeId])) {
+                    $attributes[$attributeId] = new Attribute($row['attribute_id'], $row['attribute_name'], $row['attribute_type']);
+                }
 
-            // Add attribute items to the attribute
-            $attributeItem = new AttributeItem($row['attribute_item_id'], $row['attribute_item_value'], $row['attribute_item_display_value']);
-            $attributes[$attributeId]->addItem($attributeItem);
+                // Add attribute items to the attribute
+                $attributeItem = new AttributeItem($row['attribute_item_id'], $row['attribute_item_value'], $row['attribute_item_display_value']);
+                $attributes[$attributeId]->addItem($attributeItem);
+            }
+            $product->setAttributes(array_values($attributes));
         }
 
-        // Set attributes in the product
-        $product->setAttributes(array_values($attributes));
+
+
 
         return $product;
     }

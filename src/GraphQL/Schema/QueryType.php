@@ -1,6 +1,6 @@
 <?php
 
-namespace App\GraphQL;
+namespace App\GraphQL\Schema;
 
 use App\GraphQL\Queries\OrderQuery;
 use GraphQL\Type\Definition\ObjectType;

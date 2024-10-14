@@ -1,6 +1,6 @@
 <?php
 
-namespace App\GraphQL\Types\OrderTypes;
+namespace App\GraphQL\Types\Order;
 
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;

@@ -8,8 +8,8 @@ use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\CurrencyRepository;
 
-use App\GraphQL\InputTypes\OrderProductType;
-use App\GraphQL\OutputTypes\CreateOrderTypes\CreatedOrder;
+use App\GraphQL\Inputs\OrderProductType;
+use App\GraphQL\Outputs\CreateOrder\CreatedOrder;
 
 class OrderMutation
 {
@@ -42,9 +42,7 @@ class OrderMutation
                     }
 
                     // Create the order in the orders table
-                    echo "test1";
                     $orderId = $orderRepository->createOrder($totalAmount, $currencyId);
-                    echo "tes2";
                     $orderedProducts = [];
                     foreach ($products as $product) {
                         $productDetails = $productRepository->getProductById($product['productId']);

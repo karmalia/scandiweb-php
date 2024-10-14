@@ -1,6 +1,6 @@
 <?php
 
-namespace App\GraphQL\Types\ProductTypes;
+namespace App\GraphQL\Types\Product;
 
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;

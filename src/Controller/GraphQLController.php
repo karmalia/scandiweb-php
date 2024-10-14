@@ -5,8 +5,8 @@ namespace App\Controller;
 use Dotenv\Dotenv;
 use GraphQL\GraphQL;
 use GraphQL\Type\Schema;
-use App\GraphQL\QueryType;
-use App\GraphQL\MutationType;
+use App\GraphQL\Schema\QueryType;
+use App\GraphQL\Schema\MutationType;
 use GraphQL\Error\DebugFlag;
 use App\Utils\Formatter;
 

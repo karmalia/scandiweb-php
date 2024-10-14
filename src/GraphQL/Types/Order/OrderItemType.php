@@ -1,6 +1,6 @@
 <?php
 
-namespace App\GraphQL\Types\OrderTypes;
+namespace App\GraphQL\Types\Order;
 
 use App\Models\OrderItem;
 use GraphQL\Type\Definition\Type;

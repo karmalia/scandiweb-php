@@ -1,6 +1,6 @@
 <?php
 
-namespace App\GraphQL\OutputTypes\CreateOrderTypes;
+namespace App\GraphQL\Outputs\CreateOrder;
 
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;

@@ -4,7 +4,7 @@ namespace App\GraphQL\Queries;
 
 use GraphQL\Type\Definition\Type;
 use App\Repositories\OrderRepository;
-use App\GraphQL\Types\OrderTypes\OrderType;
+use App\GraphQL\Types\Order\OrderType;
 use App\Models\Order;
 
 class OrderQuery

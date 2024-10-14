@@ -7,9 +7,9 @@ use GraphQL\Type\Definition\Type;
 use App\Repositories\ProductRepository;
 use App\Repositories\CategoryRepository;
 
-use App\GraphQL\Types\ProductTypes\CategoryType;
+use App\GraphQL\Types\Product\CategoryType;
 
-use App\GraphQL\Types\ProductTypes\ProductType;
+use App\GraphQL\Types\Product\ProductType;
 
 
 class ProductQuery

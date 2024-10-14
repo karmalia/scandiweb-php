@@ -2,21 +2,20 @@
 
 namespace App\GraphQL\Queries;
 
-use App\GraphQL\OutputTypes\GetOrderByIdTypes\OrderDetailsType;
 use GraphQL\Type\Definition\Type;
 use App\Repositories\OrderRepository;
-use App\GraphQL\Types\OrderType;
-
+use App\GraphQL\Types\OrderTypes\OrderType;
+use App\Models\Order;
 
 class OrderQuery
 {
 
     private $orderType;
-    private $orderDetailsType;
+
 
     public function __construct()
     {
-        $this->orderDetailsType = new OrderDetailsType();
+
         $this->orderType = new OrderType();;
     }
 
@@ -26,28 +25,28 @@ class OrderQuery
             'type' => Type::listOf($this->orderType),
             'resolve' => function () {
                 $orderRepository = new OrderRepository();
-                $data = $orderRepository->getAllOrdersWithItems();
+                $orders = $orderRepository->fetchAllOrders();
 
-                if ($data) {
-                    return $data;
+                // Assuming $orders contains an array of Order model instances
+                if ($orders) {
+                    return $orders;
                 } else {
                     throw new \GraphQL\Error\UserError('Orders not found');
                 }
             }
-
         ];
     }
 
     public function getOrderById(): array
     {
         return [
-            'type' => $this->orderDetailsType,
+            'type' => $this->orderType,
             'args' => [
                 'id' => Type::nonNull(Type::int())
             ],
-            'resolve' => function ($root, $args) {
+            'resolve' => function ($root, $args): Order|null {
                 $orderRepository = new OrderRepository();
-                $data = $orderRepository->getOrderDetailsById($args['id']);
+                $data = $orderRepository->fetchOrderById($args['id']);
 
 
                 return $data;

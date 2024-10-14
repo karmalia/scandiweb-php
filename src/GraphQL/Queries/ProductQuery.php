@@ -7,9 +7,10 @@ use GraphQL\Type\Definition\Type;
 use App\Repositories\ProductRepository;
 use App\Repositories\CategoryRepository;
 
-use App\GraphQL\Types\CategoryType;
+use App\GraphQL\Types\ProductTypes\CategoryType;
 
-use App\GraphQL\Types\ProductType;
+use App\GraphQL\Types\ProductTypes\ProductType;
+
 
 class ProductQuery
 {
@@ -43,24 +44,6 @@ class ProductQuery
         ];
     }
 
-    public function getCategories(): array
-    {
-        return [
-            'type' => Type::listOf($this->categoryType),
-            'resolve' =>  function () {
-
-                $categoryRepository = new CategoryRepository();
-                $data = $categoryRepository->getAllCategories();
-
-                if ($data) {
-                    return $data;
-                } else {
-                    throw new \GraphQL\Error\UserError('Categories not found');
-                }
-            }
-        ];
-    }
-
     public function getProductById(): array
     {
         return [
@@ -77,6 +60,24 @@ class ProductQuery
                     return $data;
                 } else {
                     throw new \GraphQL\Error\UserError('Product not found');
+                }
+            }
+        ];
+    }
+
+    public function getCategories(): array
+    {
+        return [
+            'type' => Type::listOf($this->categoryType),
+            'resolve' =>  function () {
+
+                $categoryRepository = new CategoryRepository();
+                $data = $categoryRepository->getAllCategories();
+
+                if ($data) {
+                    return $data;
+                } else {
+                    throw new \GraphQL\Error\UserError('Categories not found');
                 }
             }
         ];

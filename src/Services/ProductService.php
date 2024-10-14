@@ -13,34 +13,56 @@ use App\Utils\ArrayHelper;
 class ProductService
 {
     // Can be converted to a static method in future?
-    public function mapRowToProduct(array $rows): ?Product
+    public static function mapRowToProduct(array $productData): Product
     {
-
-        if (empty($rows)) {
-            return null;
-        }
-
-        $firstRow = $rows[0];
         $product = new Product(
-            $firstRow['id'],
-            $firstRow['name'],
-            $firstRow['description'],
-            (bool) $firstRow['in_stock'],
-            $firstRow['brand'],
-            $firstRow['category_name']
+            $productData[0]['id'],
+            $productData[0]['name'],
+            $productData[0]['description'],
+            $productData[0]['in_stock'],
+            $productData[0]['brand'],
+            $productData[0]['category_name']
         );
 
+        // Handle prices (use array for unique prices)
+        $prices = [];
+        foreach ($productData as $row) {
+            $currencyId = $row['currency_id'];
+            // Only add unique prices based on currency_id
+            if (!isset($prices[$currencyId])) {
+                $currency = new Currency($row['currency_id'], $row['currency_label'], $row['currency_symbol']);
+                $prices[$currencyId] = new Price($row['amount'], $currency);
+            }
+        }
+        $product->setPrices(array_values($prices));  // Make sure it's an array of unique prices
 
-        $product->setGallery(Formatter::parseGallery($firstRow['image_urls']));
-        $product->setPrices($this->extractPrices($rows));
-        $product->setAttributes($this->groupAttributesByProduct($rows));
+        // Handle images
+        $images = explode('||', $productData[0]['image_urls']);
+        $product->setGallery($images);
+
+        // Handle attributes and their items
+        $attributes = [];
+        foreach ($productData as $row) {
+            $attributeId = $row['attribute_id'];
+            if (!isset($attributes[$attributeId])) {
+                $attributes[$attributeId] = new Attribute($row['attribute_id'], $row['attribute_name'], $row['attribute_type']);
+            }
+
+            // Add attribute items to the attribute
+            $attributeItem = new AttributeItem($row['attribute_item_id'], $row['attribute_item_value'], $row['attribute_item_display_value']);
+            $attributes[$attributeId]->addItem($attributeItem);
+        }
+
+        // Set attributes in the product
+        $product->setAttributes(array_values($attributes));
 
         return $product;
     }
 
 
 
-    public function extractPrices(array $rows): array
+
+    public static function extractPrices(array $rows): array
     {
         $prices = [];
         $seenPrices = [];
@@ -85,14 +107,13 @@ class ProductService
         return array_values($attributes);
     }
 
-    public function groupProducts(array $products): array
+    public static function groupProducts(array $products): array
     {
         $groupedProducts = [];
 
         foreach ($products as $product) {
             $productId = $product['id'];
 
-            // If the product is not in the grouped array, add it
             if (!isset($groupedProducts[$productId])) {
 
                 $groupedProducts[$productId] = new Product(
@@ -105,8 +126,7 @@ class ProductService
                 );
             }
 
-            // Only add the price if all required price fields are present
-            $currentPrices = $this->extractPrices([$product]);
+            $currentPrices = Self::extractPrices([$product]);
             if (!empty($currentPrices)) {
                 $groupedProducts[$productId]->setPrices($currentPrices);
             }

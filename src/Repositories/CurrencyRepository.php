@@ -3,25 +3,16 @@
 namespace App\Repositories;
 
 use App\Models\Currency;
-use App\Core\Database;
 
-class CurrencyRepository
+class CurrencyRepository extends BaseRepository
 {
-    // Not used in current implementation
-    private $db;
-
-    public function __construct()
-    {
-        $database = new Database();
-        $this->db = $database->connect();
-    }
-
+    // Fetch a currency by ID using the BaseRepository fetchOne method
     public function getCurrencyById(string $id): ?Currency
     {
-        $stmt = $this->db->prepare("SELECT * FROM currencies WHERE id = :id");
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        $currency = $stmt->fetch();
+        $sql = "SELECT * FROM currencies WHERE id = :id";
+
+        // Use the fetchOne method from BaseRepository to get a single row
+        $currency = $this->fetchOne($sql, [':id' => $id]);
 
         if ($currency) {
             return new Currency($currency['id'], $currency['label'], $currency['symbol']);

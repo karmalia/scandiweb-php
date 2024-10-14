@@ -7,39 +7,31 @@ use PDOException;
 
 class Database
 {
-    private $host;
-    private $db_name;
-    private $username;
-    private $password;
+    private static $instance = null;
     private $conn;
 
-    public function __construct()
+    private function __construct()
     {
-
         $config = require __DIR__ . '../../../public/config.php';
-
-        $this->host = $config['database']['host'];
-        $this->db_name = $config['database']['db_name'];
-        $this->username = $config['database']['username'];
-        $this->password = $config['database']['password'];
-    }
-
-    public function connect()
-    {
-        $this->conn = null;
 
         try {
             $this->conn = new PDO(
-                "mysql:host={$this->host};dbname={$this->db_name}",
-                $this->username,
-                $this->password
+                "mysql:host={$config['database']['host']};dbname={$config['database']['db_name']}",
+                $config['database']['username'],
+                $config['database']['password']
             );
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo "Connection error: " . $e->getMessage();
+            die("Connection error: " . $e->getMessage());
         }
+    }
 
-        return $this->conn;
+    public static function getConnection()
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance->conn;
     }
 }

@@ -3,40 +3,32 @@
 namespace App\Repositories;
 
 use App\Models\Category;
-use App\Core\Database;
 
-class CategoryRepository
+class CategoryRepository extends BaseRepository
 {
-   
-    // Used for fetching categories
-    private $db;
-
-    public function __construct()
-    {
-        $database = new Database();
-        $this->db = $database->connect();
-    }
-
+    // Fetch all categories using the BaseRepository fetchAll method
     public function getAllCategories(): array
     {
-        $stmt = $this->db->prepare("SELECT * FROM categories");
-        $stmt->execute();
-        $categories = $stmt->fetchAll();
+        $sql = "SELECT * FROM categories";
+
+        // Use the fetchAll method from BaseRepository to get all records
+        $categories = $this->fetchAll($sql);
 
         $categoryList = [];
         foreach ($categories as $category) {
             $categoryList[] = new Category($category['id'], $category['name']);
         }
-        
+
         return $categoryList;
     }
 
+    // Fetch a category by ID using the BaseRepository fetchOne method
     public function getCategoryById(string $id): ?Category
     {
-        $stmt = $this->db->prepare("SELECT * FROM categories WHERE id = :id");
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        $category = $stmt->fetch();
+        $sql = "SELECT * FROM categories WHERE id = :id";
+
+        // Use the fetchOne method from BaseRepository to get a single record
+        $category = $this->fetchOne($sql, [':id' => $id]);
 
         if ($category) {
             return new Category($category['id'], $category['name']);

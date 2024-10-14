@@ -6,34 +6,45 @@ use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ResolveInfo;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
+use App\Repositories\CurrencyRepository;
+
 use App\GraphQL\InputTypes\OrderProductType;
 use App\GraphQL\OutputTypes\CreateOrderTypes\CreatedOrder;
 
 class OrderMutation
 {
     private $createdOrderType;
+
     public function getCreateOrderField(): array
     {
         $this->createdOrderType = new CreatedOrder();
         return [
-            'type' => Type::nonNull($this->createdOrderType), // Return the newly created order's ID
+            'type' => Type::nonNull($this->createdOrderType),
             'args' => [
                 'totalAmount' => Type::nonNull(Type::float()),
                 'currencyId' => Type::nonNull(Type::string()),
                 'products' => Type::listOf(new OrderProductType())
             ],
             'resolve' => function ($root, $args, $context, ResolveInfo $info) {
-
                 try {
                     $orderRepository = new OrderRepository();
                     $productRepository = new ProductRepository();
+                    $currencyRepository = new CurrencyRepository();
 
                     $totalAmount = $args['totalAmount'];
                     $currencyId = $args['currencyId'];
                     $products = $args['products'];
 
-                    $orderId = $orderRepository->createOrder($totalAmount, $currencyId);
+                    // Validate currency exists
+                    $currency = $currencyRepository->getCurrencyById($currencyId);
+                    if (!$currency) {
+                        throw new \Exception("Invalid currency ID: " . $currencyId);
+                    }
 
+                    // Create the order in the orders table
+                    echo "test1";
+                    $orderId = $orderRepository->createOrder($totalAmount, $currencyId);
+                    echo "tes2";
                     $orderedProducts = [];
                     foreach ($products as $product) {
                         $productDetails = $productRepository->getProductById($product['productId']);
@@ -41,15 +52,18 @@ class OrderMutation
                             throw new \Exception("Product not found: " . $product['productId']);
                         }
 
+                        // Get the matching price for the product in the correct currency
                         $matchingPrice = array_filter($productDetails->getPrices(), function ($price) use ($currencyId) {
                             return $price->currency->id === $currencyId;
                         });
+
                         $selectedPrice = array_values($matchingPrice)[0] ?? null;
 
                         if (!$selectedPrice) {
                             throw new \Exception("No price found for product {$product['productId']} with currency ID $currencyId");
                         }
 
+                        // Build ordered product data
                         $orderedProducts[] = [
                             'productId' => $product['productId'],
                             'quantity' => $product['quantity'],
@@ -57,14 +71,16 @@ class OrderMutation
                             'selectedAttributes' => $product['selectedAttributes'] ?? [] // Include attributes if present
                         ];
                     }
+
+                    // Add the order items to the order
                     $orderRepository->addOrderItems($orderId, $orderedProducts);
+
                     return [
                         "orderId" => $orderId,
                         "status" => "Order created successfully",
                         "error" => null
                     ];
                 } catch (\Throwable $th) {
-
                     return [
                         "orderId" => null,
                         "status" => "Failed to create order",
@@ -88,9 +104,7 @@ class OrderMutation
                 $orderId = $args['orderId'];
                 $status = $args['status'];
 
-
                 $result = $orderRepository->updateOrderStatus($orderId, $status);
-
 
                 if ($result) {
                     return "Order ID {$orderId} has been updated to {$status}.";

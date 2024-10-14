@@ -9,8 +9,6 @@ use App\GraphQL\Queries\ProductQuery;
 
 class QueryType extends ObjectType
 {
-
-
     public function __construct()
     {
 

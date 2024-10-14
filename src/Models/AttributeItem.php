@@ -15,7 +15,7 @@ class AttributeItem implements \JsonSerializable
         $this->displayValue = $displayValue;
     }
 
-    
+
     public function jsonSerialize(): array
     {
         return [
@@ -38,9 +38,5 @@ class AttributeItem implements \JsonSerializable
     public function getDisplayValue()
     {
         return $this->displayValue;
-    } 
+    }
 }
-
-
-
-

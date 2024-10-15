@@ -2,10 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Currency;
 use App\Models\Order;
-use App\Models\OrderDetail;
-use App\Models\OrderItem; // Assuming you have or will create an OrderItem model
-use App\Models\ProductDetail;
+use App\Models\OrderItem;
 
 class OrderService
 {
@@ -17,10 +16,11 @@ class OrderService
             $orderId = $order['order_id'];
 
             if (!isset($groupedOrders[$orderId])) {
+                $currency = new Currency($order['currency_id'], $order['currency_label'], $order['currency_symbol']);
                 $groupedOrders[$orderId] = new Order(
                     $order['order_id'],
                     $order['total_amount'],
-                    $order['currency_id'],
+                    $currency,
                     $order['status'],
                     $order['created_at'],
                     $order['updated_at']
@@ -46,11 +46,13 @@ class OrderService
         foreach ($orderDetails as $orderDetail) {
             $orderId = $orderDetail['order_id'];
 
+            $currency = new Currency($orderDetail['currency_id'], $orderDetail['currency_label'], $orderDetail['currency_symbol']);
+
             if (!isset($groupedOrders[$orderId])) {
                 $groupedOrders[$orderId] = new Order(
                     $orderDetail['order_id'],
                     $orderDetail['total_amount'],
-                    $orderDetail['currency_id'],
+                    $currency,
                     $orderDetail['status'],
                     $orderDetail['created_at'],
                     $orderDetail['updated_at']

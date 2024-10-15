@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Types\Product;
 
+use App\GraphQL\Schema\TypeRegistry;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;
 use App\Models\Attribute;
@@ -34,7 +35,7 @@ class AttributeType extends ObjectType
                 ],
 
                 'items' => [
-                    'type' => Type::listOf(new AttributeItemType()),
+                    'type' => Type::listOf(TypeRegistry::getAttributeItemType()),
                     'resolve' => function (Attribute $attribute): array {
                         return $attribute->getItems();
                     }

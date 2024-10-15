@@ -27,7 +27,6 @@ class OrderQuery
                 $orderRepository = new OrderRepository();
                 $orders = $orderRepository->fetchAllOrders();
 
-                // Assuming $orders contains an array of Order model instances
                 if ($orders) {
                     return $orders;
                 } else {

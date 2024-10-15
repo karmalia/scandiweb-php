@@ -22,7 +22,6 @@ class OrderRepository extends BaseRepository
         return $this->insert($sql, $params);
     }
 
-    // Method to add items to the order
     public function addOrderItems(int $orderId, array $orderedProducts)
     {
         $sql = "INSERT INTO order_items (order_id, product_id, quantity, price) 
@@ -45,7 +44,6 @@ class OrderRepository extends BaseRepository
         }
     }
 
-    // Method to add attributes for an order item
     private function addOrderItemAttributes(int $orderItemId, array $selectedAttributes)
     {
         $sql = "INSERT INTO order_item_attributes (order_item_id, attribute_id, attribute_item_id, attribute_name, attribute_value) 
@@ -87,7 +85,8 @@ class OrderRepository extends BaseRepository
                     oi.price,
                     p.name AS product_name,
                     c.label AS currency_label, 
-                    c.symbol AS currency_symbol
+                    c.symbol AS currency_symbol,
+                    c.id AS currency_id
                 FROM orders o
                 LEFT JOIN order_items oi ON o.id = oi.order_id
                 LEFT JOIN products p ON oi.product_id = p.id

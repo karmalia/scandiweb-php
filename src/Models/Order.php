@@ -2,27 +2,25 @@
 
 namespace App\Models;
 
-class Order
+class Order extends BaseModel
 {
-    private $id;
+
     private $totalAmount;
-    private $currencyId;
+    private Currency $currency;
     private $status;
-    private $createdAt;
-    private $updatedAt;
+
     private $items = [];
 
-    public function __construct($id, $totalAmount, $currencyId, $status, $createdAt, $updatedAt)
+    public function __construct($id, $totalAmount, Currency $currency, $status, $createdAt, $updatedAt)
     {
         $this->id = $id;
         $this->totalAmount = $totalAmount;
-        $this->currencyId = $currencyId;
+        $this->currency = $currency;
         $this->status = $status;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }
 
-    // Find or create an order item by product ID
     public function findOrCreateItem($productId, $quantity, $price, $productName)
     {
         if (!isset($this->items[$productId])) {
@@ -37,33 +35,33 @@ class Order
         $this->items[$item->getId()] = $item;
     }
 
-    // Getters
-    public function getId()
-    {
-        return $this->id;
-    }
+
     public function getTotalAmount()
     {
         return $this->totalAmount;
     }
-    public function getCurrencyId()
+    public function getCurrency()
     {
-        return $this->currencyId;
+        return $this->currency;
     }
     public function getStatus()
     {
         return $this->status;
     }
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
+
     public function getItems()
     {
         return $this->items;
+    }
+
+
+    public function jsonSerialize(): array
+    {
+        return array_merge(parent::jsonSerialize(), [
+            'totalAmount' => $this->totalAmount,
+            'currency' => $this->currency,
+            'status' => $this->status,
+            'items' => $this->items
+        ]);
     }
 }

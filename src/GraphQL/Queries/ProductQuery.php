@@ -16,7 +16,6 @@ class ProductQuery
 {
     private $productType;
     private $categoryType;
-    private $orderType;
 
     public function __construct()
     {

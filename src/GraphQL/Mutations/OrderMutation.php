@@ -41,7 +41,6 @@ class OrderMutation
                         throw new \Exception("Invalid currency ID: " . $currencyId);
                     }
 
-                    // Create the order in the orders table
                     $orderId = $orderRepository->createOrder($totalAmount, $currencyId);
                     $orderedProducts = [];
                     foreach ($products as $product) {
@@ -70,7 +69,6 @@ class OrderMutation
                         ];
                     }
 
-                    // Add the order items to the order
                     $orderRepository->addOrderItems($orderId, $orderedProducts);
 
                     return [

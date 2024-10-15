@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-class Attribute implements \JsonSerializable
+class Attribute extends BaseModel
 {
-    private string $id;
     private string $name;
     private string $type;
     private array $items = [];
@@ -17,24 +16,36 @@ class Attribute implements \JsonSerializable
         $this->items = $items;
     }
 
-   
+
     public function jsonSerialize(): array
     {
-        return [
-            'id' => $this->id,
+        return array_merge(parent::jsonSerialize(), [
             'name' => $this->name,
             'type' => $this->type,
             'items' => $this->items
-        ];
+        ]);
     }
+
 
     public function addItem(AttributeItem $item)
     {
         $this->items[] = $item;
     }
 
-    public function getId(): string { return $this->id; }
-    public function getName(): string { return $this->name; }
-    public function getType(): string { return $this->type; }
-    public function getItems(): array { return $this->items; }
+    public function getId(): string
+    {
+        return $this->id;
+    }
+    public function getName(): string
+    {
+        return $this->name;
+    }
+    public function getType(): string
+    {
+        return $this->type;
+    }
+    public function getItems(): array
+    {
+        return $this->items;
+    }
 }

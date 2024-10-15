@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-class ProductDetail
+class ProductDetail extends BaseModel
 {
-    private $productId;
     private $productName;
     private $quantity;
     private $price;
@@ -12,18 +11,13 @@ class ProductDetail
 
     public function __construct($productId, $productName, $quantity, $price, array $attributes = [])
     {
-        $this->productId = $productId;
+        $this->id = $productId;
         $this->productName = $productName;
         $this->quantity = $quantity;
         $this->price = $price;
         $this->attributes = $attributes;
     }
 
-    // Getters and Setters
-    public function getProductId()
-    {
-        return $this->productId;
-    }
 
     public function getProductName()
     {
@@ -53,7 +47,7 @@ class ProductDetail
     public function toArray(): array
     {
         return [
-            'productId' => $this->productId,
+            'productId' => $this->id,
             'productName' => $this->productName,
             'quantity' => $this->quantity,
             'price' => $this->price,

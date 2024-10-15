@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-class AttributeItem implements \JsonSerializable
+class AttributeItem extends BaseModel
 {
-    private string $id;
     private string $value;
     private string $displayValue;
 
@@ -15,19 +14,12 @@ class AttributeItem implements \JsonSerializable
         $this->displayValue = $displayValue;
     }
 
-
     public function jsonSerialize(): array
     {
-        return [
-            'id' => $this->id,
+        return array_merge(parent::jsonSerialize(), [
             'value' => $this->value,
             'displayValue' => $this->displayValue
-        ];
-    }
-
-    public function getId()
-    {
-        return $this->id;
+        ]);
     }
 
     public function getValue()

@@ -15,9 +15,7 @@ class MutationType extends ObjectType
         $config = [
             'name' => 'Mutation',
             'fields' => [
-                // Include all the fields from your OrderMutation class
                 'createOrder' => $orderMutation->getCreateOrderField(),
-                // Here you can add more mutation fields such as update, delete, etc.
                 'updateOrder' => $orderMutation->updateOrderStatusField(),
             ],
         ];

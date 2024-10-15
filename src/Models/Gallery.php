@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Gallery
+class Gallery extends BaseModel
 {
     private string $imageUrl;
 
@@ -16,5 +16,10 @@ class Gallery
     public function getImageUrl(): string
     {
         return $this->imageUrl;
+    }
+
+    public function setImageUrl(string $imageUrl): void
+    {
+        $this->imageUrl = $imageUrl;
     }
 }

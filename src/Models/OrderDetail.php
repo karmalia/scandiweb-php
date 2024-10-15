@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class OrderDetail
+class OrderDetail extends BaseModel
 {
     private $id;
     private $totalAmount;
@@ -27,11 +27,7 @@ class OrderDetail
         $this->products = $products;
     }
 
-    // Getters and Setters
-    public function getId()
-    {
-        return $this->id;
-    }
+
 
     public function getTotalAmount()
     {
@@ -58,16 +54,6 @@ class OrderDetail
         return $this->status;
     }
 
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
     public function getProducts(): array
     {
         return $this->products;
@@ -83,9 +69,9 @@ class OrderDetail
         $this->products[] = $product;
     }
 
-    public function toArray(): array
+    public function jsonSerialize(): array
     {
-        return [
+        return array_merge(parent::jsonSerialize(), [
             'orderId' => $this->id,
             'totalAmount' => $this->totalAmount,
             'currencyId' => $this->currencyId,
@@ -97,6 +83,6 @@ class OrderDetail
             'products' => array_map(function ($product) {
                 return $product->toArray();
             }, $this->products)
-        ];
+        ]);
     }
 }

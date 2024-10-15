@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-class Price implements \JsonSerializable  
+class Price extends BaseModel
 {
     private float $amount;
-    private Currency $currency;  
+    private Currency $currency;
 
     public function __construct(float $amount, Currency $currency)
     {
@@ -25,11 +25,13 @@ class Price implements \JsonSerializable
 
     public function jsonSerialize(): array
     {
-        return [
+        return array_merge(parent::jsonSerialize(), [
             'amount' => $this->amount,
             'currency' => $this->currency
-        ];
+        ]);
     }
+
+
 
     public function __get($property)
     {

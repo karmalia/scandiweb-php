@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Types\Order;
 
+use App\GraphQL\Schema\TypeRegistry;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;
 use App\Models\Order;
@@ -10,6 +11,7 @@ class OrderType extends ObjectType
 {
     public function __construct()
     {
+
         $config = [
             'name' => 'Order',
             'fields' => [
@@ -25,10 +27,10 @@ class OrderType extends ObjectType
                         return $order->getTotalAmount();
                     }
                 ],
-                'currencyId' => [
-                    'type' => Type::nonNull(Type::string()),
+                'currency' => [
+                    'type' => Type::nonNull(TypeRegistry::getCurrencyType()),
                     'resolve' => function (Order $order) {
-                        return $order->getCurrencyId();
+                        return $order->getCurrency();
                     }
                 ],
                 'status' => [
@@ -38,21 +40,21 @@ class OrderType extends ObjectType
                     }
                 ],
                 'createdAt' => [
-                    'type' => Type::nonNull(Type::string()), // Assuming ISO string format for dates
+                    'type' => Type::nonNull(Type::string()),
                     'resolve' => function (Order $order) {
                         return $order->getCreatedAt();
                     }
                 ],
                 'updatedAt' => [
-                    'type' => Type::nonNull(Type::string()), // Assuming ISO string format for dates
+                    'type' => Type::nonNull(Type::string()),
                     'resolve' => function (Order $order) {
                         return $order->getUpdatedAt();
                     }
                 ],
                 'items' => [
-                    'type' => Type::listOf(Type::nonNull(new OrderItemType())), // You would create OrderItemType similarly
+                    'type' => Type::listOf(Type::nonNull(new OrderItemType())),
                     'resolve' => function (Order $order) {
-                        return $order->getItems(); // Assuming getItems() returns the array of items
+                        return $order->getItems();
                     }
                 ]
             ]

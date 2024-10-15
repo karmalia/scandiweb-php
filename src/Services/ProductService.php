@@ -24,7 +24,6 @@ class ProductService
             $productData[0]['category_name']
         );
 
-        // Handle prices (use array for unique prices)
         $prices = [];
         foreach ($productData as $row) {
             $currencyId = $row['currency_id'];
@@ -34,13 +33,11 @@ class ProductService
                 $prices[$currencyId] = new Price($row['amount'], $currency);
             }
         }
-        $product->setPrices(array_values($prices));  // Make sure it's an array of unique prices
+        $product->setPrices(array_values($prices));
 
-        // Handle images
         $images = explode('||', $productData[0]['image_urls']);
         $product->setGallery($images);
 
-        // Handle attributes and their items
         $attributes = [];
         if ($row['attribute_id']) {
             foreach ($productData as $row) {
@@ -55,9 +52,6 @@ class ProductService
             }
             $product->setAttributes(array_values($attributes));
         }
-
-
-
 
         return $product;
     }

@@ -3,27 +3,8 @@
 namespace App\Models;
 
 
-interface ProductInterface
+class Product extends BaseModel
 {
-    public function getId(): string;
-    public function getName(): string;
-    public function getCategory(): string;
-    public function getDescription(): string;
-    public function isInStock(): bool;
-    public function getBrand(): string;
-    public function getPrices(): array;
-    public function getGallery(): array;
-    public function getAttributes(): array;
-    public function setAttributes(array $attributes): void;
-    public function setGallery(array $gallery): void;
-    public function setPrices(array $prices): void;
-
-    public function logProduct(): void;
-}
-
-class Product implements ProductInterface, \JsonSerializable
-{
-    private string $id;
     private string $name;
 
     private string $category;
@@ -48,8 +29,7 @@ class Product implements ProductInterface, \JsonSerializable
 
     public function jsonSerialize(): array
     {
-        return [
-            'id' => $this->id,
+        return array_merge(parent::jsonSerialize(), [
             'name' => $this->name,
             'category' => $this->category,
             'description' => $this->description,
@@ -58,8 +38,10 @@ class Product implements ProductInterface, \JsonSerializable
             'prices' => $this->prices,
             'gallery' => $this->gallery,
             'attributes' => $this->attributes
-        ];
+        ]);
     }
+
+
 
     public function logProduct(): void
     {
@@ -111,6 +93,7 @@ class Product implements ProductInterface, \JsonSerializable
 
     public function getAttributes(): array
     {
+
         return $this->attributes;
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Types\Product;
 
+use App\GraphQL\Schema\TypeRegistry;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;
 
@@ -13,7 +14,7 @@ class PriceType extends ObjectType
             'name' => 'Price',
             'fields' => [
                 'amount' => Type::nonNull(Type::float()),
-                "currency" => new CurrencyType()
+                "currency" => TypeRegistry::getCurrencyType()
             ]
         ];
         parent::__construct($config);

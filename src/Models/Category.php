@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-class Category
+class Category extends BaseModel
 {
 
-    private int $id;
     private string $name;
 
     public function __construct(int $id,  string $name)
@@ -14,10 +13,6 @@ class Category
         $this->name = $name;
     }
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
     public function getName(): string
     {
         return $this->name;

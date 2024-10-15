@@ -2,6 +2,8 @@
 
 namespace App\GraphQL\Types\Product;
 
+use App\GraphQL\Schema\TypeRegistry;
+use App\Models\Product;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;
 
@@ -26,31 +28,31 @@ class ProductType extends ObjectType
                 ],
                 'category' => [
                     'type' => Type::string(),
-                    'resolve' => function ($product) {
+                    'resolve' => function (Product $product) {
                         return $product->getCategory();
                     }
                 ],
                 'description' => [
                     'type' => Type::string(),
-                    'resolve' => function ($product) {
+                    'resolve' => function (Product $product) {
                         return $product->getDescription();
                     }
                 ],
                 'in_stock' => [
                     'type' => Type::boolean(),
-                    'resolve' => function ($product) {
+                    'resolve' => function (Product $product) {
                         return $product->isInStock();
                     }
                 ],
                 'brand' => [
                     'type' => Type::string(),
-                    'resolve' => function ($product) {
+                    'resolve' => function (Product $product) {
                         return $product->getBrand();
                     }
                 ],
                 'prices' => [
-                    'type' => Type::listOf(new PriceType()),
-                    'resolve' => function ($product) {
+                    'type' => Type::listOf(TypeRegistry::getPriceType()),
+                    'resolve' => function (Product $product) {
                         return $product->getPrices();
                     }
                 ],
@@ -61,8 +63,9 @@ class ProductType extends ObjectType
                     }
                 ],
                 'attributes' => [
-                    'type' => Type::listOf(new AttributeType()),
+                    'type' => Type::listOf(TypeRegistry::getAttributeType()),
                     'resolve' => function ($product) {
+
                         return $product->getAttributes();
                     }
                 ],

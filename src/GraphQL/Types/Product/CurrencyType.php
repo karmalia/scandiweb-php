@@ -12,6 +12,7 @@ class CurrencyType extends ObjectType
         $config = [
             'name' => 'Currency',
             'fields' => [
+                'id' => Type::nonNull(Type::string()),
                 'label' => Type::nonNull(Type::string()),
                 'symbol' => Type::nonNull(Type::string())
             ]

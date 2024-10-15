@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-class Currency implements \JsonSerializable
+class Currency extends BaseModel
 {
-    private string $id;        
-    private string $label;     
-    private string $symbol;    
+    private string $label;
+    private string $symbol;
 
     public function __construct(string $id, string $label, string $symbol)
     {
@@ -33,11 +32,11 @@ class Currency implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'id' => $this->id,
             'label' => $this->label,
             'symbol' => $this->symbol
         ];
     }
+
 
     public function __get($property)
     {
